@@ -6,7 +6,7 @@ face_cascade = cv2.CascadeClassifier('cascades/data/haarcascade_frontalface_alt2
 #nastaveni kamery
 cap = cv2.VideoCapture(0)
 
-while True:
+while (True):
 	#cteni frame po framu
 	ret,frame = cap.read()
 
