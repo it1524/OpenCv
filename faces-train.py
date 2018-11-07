@@ -21,23 +21,20 @@ for root,dirs, files in os.walk(image_dir):
 			path = os.path.join(root, file)
 			label = os.path.basename(os.path.dirname(path)).replace(" ", "-").lower()
 			#print(label, path)
-			if label in label_ids:
-				pass
-			else:
+			if not label in label_ids:
 				label_ids[label] = current_id
 				current_id += 1
 
 			id_ = label_ids[label]
 			#print(label_ids)
 			pil_image = Image.open(path).convert("L") #grayscale
-			size= (550,550)
-			final_image = pil_image.resize(size, Image.ANTIALIAS)
+			final_image = pil_image.resize((550,550), Image.ANTIALIAS)
 			image_array = np.array(pil_image, "uint8")
 			#print(image_array)
 			faces = face_cascade.detectMultiScale(image_array, scaleFactor=1.5, minNeighbors=5)
 
 			for (x,y,w,h) in faces:
-				roi = gray[y:y+h, x:x+w]
+				roi = image_array[y:y+h, x:x+w]
 				x_train.append(roi)
 				y_labels.append(id_)
 

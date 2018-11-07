@@ -6,13 +6,13 @@ face_cascade = cv2.CascadeClassifier('cascades/data/haarcascade_frontalface_alt2
 recognizer = cv2.face.LBPHFaceRecognizer_create()
 recognizer.read("trainner.yml")
 
-labels = {"person_name": 1}
+labels = {"name": 1}
 with open("labels.pickle", 'rb') as f:
 	old_labels = pickle.load(f)
 	labels = {v:k for k,v in old_labels.item()}
 
 #nastaveni kamery
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(1)
 
 while (True):
 	#cteni frame po framu
@@ -25,7 +25,7 @@ while (True):
 		roi_color = frame[y:y+h, x:x+w]
 
 		id_, conf = recognizer.predict(roi_gray)
-		if conf>= 45 and conf<= 85
+		if conf>= 45 and conf<= 85:
 			print(id_)
 			print(labels[id_])
 			font = cv2.FONT_HERSHEY_SIMPLEX
@@ -39,9 +39,9 @@ while (True):
 
 		color = (255,0,0) #BGR
 		stroke = 2
-		end_cord_x = x+w
-		end_cord_y = y+h
-		cv2.rectangle(frame, (x,y),(end_cord_x, end_cord_y, color, stroke)
+		end_x = x+w
+		end_y = y+h
+		cv2.rectangle(frame, (x,y),(end_x, end_y), color, stroke)
 
 
 	#frame
