@@ -9,7 +9,7 @@ recognizer.read("trainner.yml")
 labels = {"name": 1}
 with open("labels.pickle", 'rb') as f:
 	old_labels = pickle.load(f)
-	labels = {v:k for k,v in old_labels.item()}
+	labels = {v:k for k,v in old_labels.items()}
 
 #nastaveni kamery
 cap = cv2.VideoCapture(1)
@@ -32,7 +32,7 @@ while (True):
 			name = labels[id_]
 			color = (255,255,255)
 			stroke = 2
-			cv2.putText(frame,name, (x,y), font,1,color,stroke,cv2,LINE_AA)
+			cv2.putText(frame,name, (x,y), font,1,color,stroke,cv2.LINE_AA)
 
 		img_item = "my-image.png"
 		cv2.imwrite(img_item,roi_gray)
