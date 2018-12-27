@@ -4,7 +4,7 @@ from camera2 import VideoCamera
 app = Flask(__name__)
 
 #   Route for Hompage
-@app.route('/', methods=['GET'])
+@app.route('/')
 def page_home():
 
     return render_template('index.html')

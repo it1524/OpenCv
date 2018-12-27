@@ -1,23 +1,13 @@
-<!doctype html>
-<html>
-<head>
-    <title>Facial Recognition Service</title>
-    <link rel="stylesheet" href="main.css">
-    <script type="text/javascript" src="{{ url_for('static', filename='lodash.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='immutable.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='axios.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='jquery.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='app.js') }}"></script>
-</head>
-<body>
+{% extends 'layout.html' %}
 
+{% block body %}
 
-<div class="container">
+<div class="jumbotron text-center">
     <h1>Facial Recognition</h1>
+
     <img id="bg" src="{{ url_for('video_feed') }}">
     
 
 
 </div>
-</body>
-</html>
+{% endblock %}
