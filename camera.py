@@ -1,18 +1,32 @@
 import numpy as np
 import cv2
 import pickle
+import fileinput
+import sys
+from datetime import datetime
 
 face_cascade = cv2.CascadeClassifier('cascades/data/haarcascade_frontalface_alt2.xml')
 recognizer = cv2.face.LBPHFaceRecognizer_create()
 recognizer.read("trainner.yml")
+
+
 
 labels = {"name": 1}
 with open("labels.pickle", 'rb') as f:
 	old_labels = pickle.load(f)
 	labels = {v:k for k,v in old_labels.items()}
 
+
 #nastaveni kamery
 cap = cv2.VideoCapture(1)
+
+
+
+def replaceAll(file,searchExp,replaceExp):
+    for line in fileinput.input(file, inplace=1):
+        if searchExp in line:
+            line = line.replace(searchExp,replaceExp)
+        sys.stdout.write(line)
 
 while (True):
 	#cteni frame po framu
@@ -32,8 +46,9 @@ while (True):
 			name = labels[id_]
 			color = (255,255,255)
 			stroke = 2
+			d = datetime.now()
 			cv2.putText(frame,name, (x,y), font,1,color,stroke,cv2.LINE_AA)
-
+			replaceAll("Cas.txt", name, name)
 		img_item = "my-image.png"
 		cv2.imwrite(img_item,roi_gray)
 
@@ -49,7 +64,7 @@ while (True):
 	if cv2.waitKey(20) & 0xFF == ord('q'):
 		break
 
- 
+
 
 
 cap.release()
