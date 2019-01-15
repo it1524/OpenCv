@@ -18,20 +18,20 @@ with open("labels.pickle", 'rb') as f:
 
 
 #nastaveni kamery
-cap = cv2.VideoCapture(1)
+#cap = cv2.VideoCapture(1)
 
 
 
 def replaceAll(file,searchExp,replaceExp):
     for line in fileinput.input(file, inplace=1):
         if searchExp in line:
-            line = line.replace(searchExp,replaceExp)
+            line = line.replace(line, ('%s %s ' % (searchExp, datetime.now())))
         sys.stdout.write(line)
 
 while (True):
 	#cteni frame po framu
 	ret,frame = cap.read()
-
+	img = cv2.imread('test.jpg')
 	gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 	faces = face_cascade.detectMultiScale(gray, scaleFactor=1.5, minNeighbors=5)
 	for(x, y, w, h) in faces:
@@ -48,7 +48,7 @@ while (True):
 			stroke = 2
 			d = datetime.now()
 			cv2.putText(frame,name, (x,y), font,1,color,stroke,cv2.LINE_AA)
-			replaceAll("Cas.txt", name, name)
+			replaceAll("Cas.txt", name, name + "12")
 		img_item = "my-image.png"
 		cv2.imwrite(img_item,roi_gray)
 

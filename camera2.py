@@ -1,6 +1,9 @@
 import numpy as np
 import cv2
 import pickle
+import fileinput
+from datetime import datetime
+import sys
 
 face_cascade = cv2.CascadeClassifier('cascades/data/haarcascade_frontalface_alt2.xml')
 recognizer = cv2.face.LBPHFaceRecognizer_create()
@@ -11,13 +14,21 @@ with open("labels.pickle", 'rb') as f:
     old_labels = pickle.load(f)
     labels = {v:k for k,v in old_labels.items()}
 
+def replaceAll(file,searchExp, replaceWith):
+    for line in fileinput.input(file, inplace=1):
+        if searchExp in line:
+            line = line.replace(line, ('%s %s ' % (replaceWith, datetime.now())))
+        sys.stdout.write(line)
+        if not searchExp in line:
+            sys.stdout.write('%s %s ' % (searchExp, datetime.now()))
+
 class VideoCamera(object):
     def __init__(self):
         self.video = cv2.VideoCapture(1)
     
     def __del__(self):
         self.video.release()
-    
+
     def get_frame(self):
         success, image = self.video.read()
         gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
@@ -34,6 +45,7 @@ class VideoCamera(object):
                 color = (255,255,255)
                 stroke = 2
                 cv2.putText(image,name, (x,y), font,1,color,stroke,cv2.LINE_AA)
+                replaceAll("Cas.txt", name, name)
 
             color = (255,0,0) #BGR
             stroke = 2
